@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+
+import { loginServiceOperation } from '../../store/user/thunks';
 
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
@@ -10,6 +12,7 @@ const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const handleEmail = (e) => {
 		setEmail(e.target.value);
@@ -21,26 +24,20 @@ const Login = () => {
 
 	const handleClick = async (e) => {
 		e.preventDefault();
+
 		const requestObject = {
 			email: email,
 			password: password,
 		};
 
-		const request = await axios.post(
-			'http://localhost:4000/login',
-			requestObject
-		);
-
-		localStorage.setItem('token', request.data.result);
+		await dispatch(loginServiceOperation(requestObject));
 
 		navigate('/courses');
-
-		console.log(request);
 	};
 
 	return (
 		<form className={styles.form}>
-			<h2>Login</h2>
+			<h2>Welcome</h2>
 			<Input
 				labelText={'Email'}
 				placeholderText={'Enter email...'}

@@ -1,0 +1,21 @@
+.coursesContainer {
+    min-height: 90vh;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    
+    margin: 0 auto;
+
+    background-image: linear-gradient(to right top, #e9ffe6, #ecfee2, #f0fdde, #f4fcda, #f8fbd7, #f1fbd9, #eafbdb, #e4fadd, #d5f9e8, #cef5f2, #cef1f8, #d4ebf9);    .coursesList {
+        width: 100vw;
+        max-width: 1300px;
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+
+        margin: 20px auto;
+    }
+}

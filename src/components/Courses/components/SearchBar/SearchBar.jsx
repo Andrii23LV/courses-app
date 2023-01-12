@@ -5,7 +5,7 @@ import styles from './SearchBar.module.scss';
 import Button from '../../../../common/Button/Button';
 import Input from '../../../../common/Input/Input';
 
-const SearchBar = ({ setQuery, setCreate }) => {
+const SearchBar = ({ setQuery, userRole }) => {
 	const navigate = useNavigate();
 	const [inputValue, setInputValue] = useState('');
 
@@ -32,10 +32,19 @@ const SearchBar = ({ setQuery, setCreate }) => {
 				/>
 				<Button buttonText={'Search'} onClick={handleSubmit} />
 			</div>
-			<Button
-				buttonText={'Add new course'}
-				onClick={() => navigate(`/courses/add`)}
-			/>
+			{userRole === 'admin' && (
+				<Button
+					buttonText={'Add new course'}
+					onClick={() =>
+						navigate(`/courses/add`, {
+							state: {
+								formType: 'Create',
+								fetchType: 'add',
+							},
+						})
+					}
+				/>
+			)}
 		</div>
 	);
 };

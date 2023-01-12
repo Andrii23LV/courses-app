@@ -1,9 +1,7 @@
-import { mockedAuthorsList as authorsList } from '../constants';
-
-export const authorNameById = (authors) => {
+export const authorNameById = (authors, authorsListData) => {
 	let authorsName = [];
 	authors.forEach((authorCourse) => {
-		authorsList.forEach((authorAll) => {
+		authorsListData.forEach((authorAll) => {
 			if (authorAll.id === authorCourse) {
 				authorsName.push(authorAll.name);
 			}

@@ -1,0 +1,58 @@
+.courseInfoContainer {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+
+    padding: 50px;
+
+    background-image: linear-gradient(to right top, #e9ffe6, #ecfee2, #f0fdde, #f4fcda, #f8fbd7, #f1fbd9, #eafbdb, #e4fadd, #d5f9e8, #cef5f2, #cef1f8, #d4ebf9);
+    
+    .link {
+        color: black;
+        text-decoration: none;
+
+        span {
+            margin-left: 10px;
+            font-weight: 500;
+        }
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    
+    .courseInfo {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 20px;
+
+        width: 70%;
+        min-width: 300px;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        .block1 {
+            padding: 20px 10px;
+            box-shadow: 0 0 10px rgb(0 0 0 / 15%);
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            
+            max-width: 500px;
+        }
+
+        ul {
+            padding: 20px 10px;
+            box-shadow: 0 0 10px rgb(0 0 0 / 15%);
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+
+            list-style: none;
+        }
+    }
+}

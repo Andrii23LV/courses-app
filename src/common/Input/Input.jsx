@@ -1,6 +1,6 @@
 import styles from './Input.module.scss';
 
-const Input = ({ labelText, placeholderText, onChange }) => {
+const Input = ({ labelText, value, placeholderText, onChange }) => {
 	return (
 		<div className={styles.inputContainer}>
 			<label htmlFor='field'>{labelText}</label>
@@ -8,6 +8,7 @@ const Input = ({ labelText, placeholderText, onChange }) => {
 				type='text'
 				placeholder={placeholderText}
 				id='field'
+				value={value}
 				onChange={onChange}
 			/>
 		</div>

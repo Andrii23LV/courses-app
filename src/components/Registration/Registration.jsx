@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+
+import { signupServiceOperation } from '../../store/user/thunks';
 
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
@@ -10,6 +12,8 @@ const Registration = () => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const handleName = (e) => {
 		setName(e.target.value);
@@ -25,23 +29,21 @@ const Registration = () => {
 
 	const handleClick = async (e) => {
 		e.preventDefault();
+
 		const requestObject = {
 			name: name,
 			email: email,
 			password: password,
 		};
 
-		const request = await axios.post(
-			'http://localhost:4000/register',
-			requestObject
-		);
+		dispatch(signupServiceOperation(requestObject));
 
-		console.log(request);
+		navigate('/login');
 	};
 
 	return (
 		<form className={styles.form}>
-			<h2>Registration</h2>
+			<h2>Create new account</h2>
 			<Input
 				labelText={'Name'}
 				placeholderText={'Enter name...'}

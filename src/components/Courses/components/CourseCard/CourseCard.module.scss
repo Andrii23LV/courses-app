@@ -1,25 +1,90 @@
 .card {
-    border: 2px solid green;
+    border-radius: 5px;
 
     display: flex;
     justify-content: space-between;
-    gap: 20px;
 
     font-size: 20px;
 
-    max-width: 1400px;
-    padding: 20px;
+    max-width: 550px;
+    padding: 20px 30px;
     margin: 20px auto 0 auto;
 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    background-color: white;
+
+    width: 45%;
+    min-height: 180px;
+
+    transition: .6s;
+
+    &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+
+    }
+
     .description {
-        width: 65%;
+        width: 55%;
+        padding-right: 10px;
+        p {
+            font-size: 16px;
+            text-align: justify;
+
+            .readOrHide {
+                color: rgb(192,192,192);
+                cursor: pointer;
+                font-size: 13px;
+
+                &:hover {
+                    text-decoration: underline;
+                    color: rgb(152,152,152);
+                }
+            }
+        }
     }
 
     .details {
-        width: 35%;
+        width: 40%;
+        padding-left: 10px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        font-size: 16px;
+
+        color: gray;
+
+        border-left: 2px solid rgb(144, 229, 144);
+
         .label {
             font-weight: bold;
             margin-right: 5px;
+            color: black;
         }
     }
+
+    .buttonGroup {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+
+        margin-top: 10px;
+        
+        button {
+            background-color: rgb(144, 229, 144);
+
+            border: none;
+            padding: 7px;
+
+            border-radius: 5px;
+
+            &:hover {
+                cursor: pointer;
+                background-color: rgb(153, 245, 153);
+            }
+        }
+    }
+    
 }

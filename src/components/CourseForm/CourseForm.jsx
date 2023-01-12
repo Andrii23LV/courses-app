@@ -1,49 +1,92 @@
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
-import { v4 as newId } from 'uuid';
+import {
+	addCourseServiceOperation,
+	editCourseServiceOperation,
+} from '../../store/courses/thunks';
+import {
+	addAuthorServiceOperation,
+	deleteAuthorServiceOperation,
+	getAllAuthorsServiceOperation,
+} from '../../store/authors/thunks';
 
-import styles from './CreateCourse.module.scss';
+import { authorsList } from '../../store/authors/selectors';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+
+import styles from './CourseForm.module.scss';
 
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 import DurationInfo from './components/DurationInfo/DurationInfo';
 
-import { mockedAuthorsList } from '../../constants.js';
-import { mockedCoursesList } from '../../constants.js';
-import { dateGenerator } from '../../helpers/dateGenerator';
+const CourseForm = () => {
+	const location = useLocation();
 
-const CreateCourse = ({ setCreate }) => {
-	const [title, setTitle] = useState();
-	const [description, setDescription] = useState();
-	const [duration, setDuration] = useState();
+	const [title, setTitle] = useState(location.state.course?.title || '');
+	const [description, setDescription] = useState(
+		location.state.course?.description || ''
+	);
+	const [duration, setDuration] = useState(
+		location.state.course?.duration || ''
+	);
 	const [newAuthor, setNewAuthor] = useState();
-	const [authors, setAuthors] = useState([]);
 	const [addedAuthors, setAddedAuthors] = useState([]);
 
+	const authors = useSelector(authorsList);
+
+	const dispatch = useDispatch();
+
 	useEffect(() => {
-		setAuthors(mockedAuthorsList);
-	}, []);
+		dispatch(getAllAuthorsServiceOperation());
+	}, [dispatch]);
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		if (!title || !description || !duration || addedAuthors.length === 0)
+			return alert('Please, fill all fields!');
+
+		const request = {
+			title: title,
+			description: description,
+			duration: parseInt(duration),
+			authors: addedAuthors.map((author) => author.id),
+		};
+
+		if (location.state.fetchType === 'add')
+			dispatch(addCourseServiceOperation(request));
+		if (location.state.fetchType === 'edit')
+			dispatch(editCourseServiceOperation(request, location.state.course.id));
+	};
+
+	const handleAddAuthor = (e) => {
+		e.preventDefault();
+		dispatch(addAuthorServiceOperation({ name: newAuthor }));
+	};
+
+	const handleDeleteAuthor = (e, id) => {
+		e.preventDefault();
+		dispatch(deleteAuthorServiceOperation(id));
+	};
 
 	return (
-		<section>
+		<form data-testid='course-form'>
 			<div className={styles.block1}>
 				<Input
+					type='text'
 					labelText={'Title'}
+					value={title}
 					placeholderText={'Enter title...'}
 					onChange={(e) => setTitle(e.target.value)}
 				/>
 				<Button
-					buttonText={'Create course'}
-					onClick={() => {
-						mockedCoursesList.push({
-							id: newId(),
-							title: title,
-							description: description,
-							creationDate: dateGenerator(),
-							duration: duration,
-							authors: addedAuthors,
-						});
-						setCreate(false);
+					buttonText={`${location.state.formType} course`}
+					onClick={(e) => {
+						handleSubmit(e);
 					}}
 				/>
 			</div>
@@ -52,6 +95,7 @@ const CreateCourse = ({ setCreate }) => {
 				<textarea
 					id='descrip'
 					placeholder='Enter description'
+					value={description}
 					onChange={(e) => setDescription(e.target.value)}
 				/>
 			</div>
@@ -66,20 +110,17 @@ const CreateCourse = ({ setCreate }) => {
 						/>
 						<Button
 							buttonText={'Create author'}
-							onClick={() => {
-								setAuthors((currentArray) => [
-									...currentArray,
-									{ name: newAuthor, id: newId() },
-								]);
-							}}
+							onClick={(e) => handleAddAuthor(e)}
 						/>
 					</div>
 					<div className={styles.inputContainer}>
 						<h3>Duration</h3>
 						<Input
-							labelText={'Duration'}
+							type='text'
+							name='duration'
+							onChange={(e) => setDuration(e.target.value.replace(/\D/g, ''))}
+							value={duration}
 							placeholderText={'Enter duration in minutes...'}
-							onChange={(e) => setDuration(e.target.value)}
 						/>
 						<DurationInfo duration={duration} />
 					</div>
@@ -101,6 +142,10 @@ const CreateCourse = ({ setCreate }) => {
 													...currentArray,
 												])
 											}
+										/>
+										<Button
+											icon={<FontAwesomeIcon icon={faTrash} />}
+											onClick={(e) => handleDeleteAuthor(e, author.id)}
 										/>
 									</li>
 								);
@@ -132,8 +177,8 @@ const CreateCourse = ({ setCreate }) => {
 					</ul>
 				</div>
 			</div>
-		</section>
+		</form>
 	);
 };
 
-export default CreateCourse;
+export default CourseForm;

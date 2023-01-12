@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { isAuth, token, user } from '../../store/user/selectors';
+import { logoutServiceOperation } from '../../store/user/thunks';
 import Button from '../../common/Button/Button';
 import Logo from './components/Logo/Logo';
 
@@ -8,26 +10,31 @@ import styles from './Header.module.scss';
 
 const Header = () => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const authToken = useSelector(token);
+	const auth = useSelector(isAuth);
+	const userInfo = useSelector(user);
 
 	const handleLogout = async () => {
-		const token = localStorage.getItem('token');
-		const request = await axios.delete('http://localhost:4000/logout', {
-			headers: { Authorization: token },
-		});
-
+		dispatch(logoutServiceOperation(authToken));
 		navigate('/login');
-
-		console.log(request);
 	};
 
 	return (
-		<div className={styles.header}>
+		<header className={styles.header} data-testid='header'>
 			<Logo />
+			<h2>Courses</h2>
 			<div className={styles.userContainer}>
-				<p className={styles.username}>Name</p>
-				<Button buttonText={'Logout'} onClick={handleLogout} />
+				{auth && (
+					<>
+						<p className={styles.username} data-testid='name'>
+							{userInfo.name}
+						</p>
+						<Button buttonText={'Logout'} onClick={handleLogout} />
+					</>
+				)}
 			</div>
-		</div>
+		</header>
 	);
 };
 
