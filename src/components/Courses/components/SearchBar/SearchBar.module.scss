@@ -1,0 +1,19 @@
+.searchBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .inputContainer {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        align-items: flex-end;
+
+        button {
+            margin: 0;
+        }
+    }
+    button {
+        margin-bottom: 0;
+    }
+}

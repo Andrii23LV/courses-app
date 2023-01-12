@@ -1,0 +1,17 @@
+.header {
+    background-color: #fff;
+    border: 2px solid red;
+    
+    padding: 20px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .userContainer {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+    }
+}

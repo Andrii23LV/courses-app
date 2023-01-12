@@ -1,0 +1,25 @@
+.card {
+    border: 2px solid green;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+
+    font-size: 20px;
+
+    max-width: 1400px;
+    padding: 20px;
+    margin: 20px auto 0 auto;
+
+    .description {
+        width: 65%;
+    }
+
+    .details {
+        width: 35%;
+        .label {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+    }
+}
