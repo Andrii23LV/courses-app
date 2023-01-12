@@ -32,7 +32,7 @@ const CourseCard = ({ course }) => {
 
 	useEffect(() => {
 		dispatch(getAllAuthorsServiceOperation());
-	}, []);
+	}, [dispatch]);
 
 	const handleDelete = () => {
 		dispatch(deleteCourseServiceOperation(course.id));
