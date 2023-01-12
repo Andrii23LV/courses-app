@@ -4,8 +4,6 @@ jobs:
   init:
     runs-on: ubuntu-latest
     steps:
-      - name: install modules
-        run: npm install
       - name: build app
         run: npm run build
       - name: unit testing
